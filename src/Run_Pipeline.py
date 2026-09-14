@@ -47,6 +47,8 @@ def run_league_across_seasons(league: str, seasons: list[int]) -> pd.DataFrame:
         print(f"  [{league}] season {season}: {len(feats):,} feature rows, "
               f"{feats['game_id'].nunique():,} games")
         season_feature_tables.append(feats)
+        
+    return pd.concat(season_feature_tables, ignore_index=True)
 
 
 def main():
