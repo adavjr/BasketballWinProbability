@@ -89,12 +89,9 @@ def build_elo_ratings(games: pd.DataFrame, initial_ratings: dict = None,
         actual_home_win = 1.0 if margin > 0 else 0.0
         mov_multiplier = _margin_of_victory_multiplier(margin, elo_diff)
 
-        # Update ratings based on game outcome
-        actual_home_win = 1 if margin > 0 else 0
         delta = K_FACTOR * mov_multiplier * (actual_home_win - expected_home_win_prob)
-
-        ratings[home] = home_rating +delta
+        ratings[home] = home_rating + delta
         ratings[away] = away_rating - delta
 
-        per_game_df = pd.DataFrame(records).set_index("game_id")
-        return per_game_df, ratings, last_season_seen
+    per_game_df = pd.DataFrame(records).set_index("game_id")
+    return per_game_df, ratings, last_season_seen
