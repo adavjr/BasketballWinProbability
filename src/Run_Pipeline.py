@@ -4,15 +4,15 @@ End to End run : Load data -> Build feature tables -> Train and evaluate models
 
 import gc
 import pandas as pd
-from DataLoad import load_nba, load_wbb, SEASONS
+from DataLoad import load_nba_data, load_wbb_data, SEASONS
 from FeatureBuilding import prepare_pbp, extract_game_results, build_features
 from Elo import build_elo_ratings
 from Model import train_and_evaluate, summarize
 from Calibration_Plot import plot_reliability_diagrams
 
 LOADERS = {
-    "NBA": load_nba,
-    "NCAA_WBB": load_wbb,
+    "NBA": load_nba_data,
+    "NCAA_WBB": load_wbb_data,
 }
 
 def run_league_across_seasons(league: str, seasons: list[int]) -> pd.DataFrame:
