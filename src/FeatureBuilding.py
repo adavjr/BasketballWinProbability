@@ -9,7 +9,7 @@ import pandas as pd
 
 TOTAL_GAME_SECONDS = {
     "NBA" : 48 * 60,     #12-min quarters
-    "WBB" : 40 * 60      #10-min quarters
+    "NCAA_WBB" : 40 * 60      #10-min quarters
 }
 
 EXHIBITIONS = {"CHK", "SHQ", "WLD", "USA", "WORLD"} #All-Star / exhibition rosters, no real season record
