@@ -1,0 +1,5 @@
+league,model,auc,brier
+NBA,LogisticRegression,0.8566,0.154
+NBA,XGBoost,0.8503,0.1579
+NCAA_WBB,LogisticRegression,0.9261,0.1056
+NCAA_WBB,XGBoost,0.9267,0.1052
