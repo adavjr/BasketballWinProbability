@@ -138,7 +138,7 @@ def plot_comparison(comparison: pd.DataFrame, game_id: int, save_path: str = Non
             label="sportsdataverse package model", linewidth=2)
     ax.plot(comparison["play_index"], comparison["model_home_wp"], 
                 label="Elo + XGBoost model", linewidth=2, alpha=0.8)
-    ax.set_title(f"Home win probability over te game - game_id {game_id}")
+    ax.set_title(f"Home win probability over the game - game_id {game_id}")
     ax.set_xlabel("Play index (chronological)")
     ax.set_ylabel("Home win probability")
     ax.set_ylim(0, 1)
