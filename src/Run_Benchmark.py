@@ -18,7 +18,7 @@ LEAUGE = "NBA"          #"NBA" or "NCAA_WBB"
 SEASON = 2025           #Choose already cached season
 N_GAMES = 25            #Number of random games to use in benchmark
 RANDOM_SEED = None      #Set to any int to get same sample each run
-SEED_SOURCE = "elo"   #"elo" (raw Elo formula) or "model" (xgb mode's first play prediction)
+SEED_SOURCE = "model"     #"elo" (raw Elo formula) or "model" (xgb mode's first play prediction)
                         # - see Benchmark_SDV.py docstring for what each source isolates
 
 
