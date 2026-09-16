@@ -59,6 +59,8 @@ def extract_game_results(df_slim: pd.DataFrame) -> pd.DataFrame:
         .drop_duplicates("game_id")
         .rename(columns={"final_home_score": "home_score", "final_away_score": "away_score"})
     )
+
+
 def build_features(df_slim: pd.DataFrame, league: str, elo_per_game: pd.DataFrame) -> pd.DataFrame:
     """
     Build features for win-probability model training. For now, NBA and WBB share
@@ -91,7 +93,7 @@ def build_features(df_slim: pd.DataFrame, league: str, elo_per_game: pd.DataFram
     # Context columns aren't used for training (model.py selects FEATURE_COLS
     # explicitly) but travel along so downstream consumers — like the
     # Streamlit app's export step — never need to re-derive or re-merge
-    # anything to reconstruct a human-readable game replay. Keeping this in
+    # anything to reconstruct a game replay. Keeping this in
     # the SAME dataframe that gets predict_proba'd avoids a row-alignment
     # bug where a separately-built "display" frame and the "model input"
     # frame could silently drift apart after dropna().

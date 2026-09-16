@@ -1,0 +1,26 @@
+[
+  {
+    "league": "NBA",
+    "model": "LogisticRegression",
+    "auc": 0.8566151317135389,
+    "brier": 0.15396229935091113
+  },
+  {
+    "league": "NBA",
+    "model": "XGBoost",
+    "auc": 0.8503182382735905,
+    "brier": 0.15786591079274295
+  },
+  {
+    "league": "NCAA_WBB",
+    "model": "LogisticRegression",
+    "auc": 0.926103264217443,
+    "brier": 0.10563635105430313
+  },
+  {
+    "league": "NCAA_WBB",
+    "model": "XGBoost",
+    "auc": 0.9267335046865713,
+    "brier": 0.10517109486797091
+  }
+]
