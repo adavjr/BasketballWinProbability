@@ -30,6 +30,7 @@ def load_artifacts():
 
 def format_clock(seconds_remaining: float, league: str) -> str:
     """ Turn seconds-remaining-in-game value back into readable game clock"""
+    seconds_remaining = float(seconds_remaining)
     period_length = 12 * 60 if league == "NBA" else 10 * 60
     # Seconds_remaining counts down for whole game, so have to separate by 
     # quarter and time remaining in quarter
@@ -78,7 +79,7 @@ with tab_replay:
 
     st.subheader(
         f"{game_meta['home_team_abbrev']} {game_meta['final_home_score']}"
-        f"- {game_meta['final_away_score']} {game_meta['away_team_abbrev']}"
+        f" - {game_meta['final_away_score']} {game_meta['away_team_abbrev']}"
     )
 
     #Scrubber feature: index into play sequence, not seconds, since plays aren't evenly time spaced
@@ -87,8 +88,8 @@ with tab_replay:
 
     m1, m2, m3 = st.columns(3)
     m1.metric("Score", f"{int(current['home_score'])} - {int(current['away_score'])}")
-    m2.metric("Clock", format_clock(current["seconds_remaining"], league))
-    m3.metric(f"{game_meta['home_team_abbrev']} win probability", f"{current['home_win_prob']:.1%}")
+    m2.metric("Clock", format_clock(float(current["seconds_remaining"]), league))
+    m3.metric(f"{game_meta['home_team_abbrev']} win probability", f"{float(current['home_win_prob']):.1%}")
 
     fig = go.Figure()
     fig.add_trace(go.Scatter(
@@ -106,4 +107,32 @@ with tab_replay:
         "Win probability is determined by Elo-based XGBoost model's estimate at each play,"
         "not sportsdataverse's package model - see benchmark files for comparison"
     )
-    
+
+with tab_diagnostics:
+    st.subheader("Model Performance")
+    st.dataframe(
+        metrics.pivot(index="league", columns="model", values=["auc", "brier"]).round(4), width='stretch'
+    )
+
+    st.subheader("Reliability Diagrams")
+    league_choice = st.radio("League", sorted(calibration["league"].unique()), horizontal=True)
+    cal_subset = calibration[calibration["league"] == league_choice]
+
+    fig_cal = go.Figure()
+    fig_cal.add_trace(go.Scatter(x=[0, 1], y=[0, 1], mode="lines",
+                       name="Perfectly Calibrated", line=dict(dash="dash", color="gray")))
+
+    for model_name, group in cal_subset.groupby("model"):
+        group = group.sort_values("prob_pred")
+        fig_cal.add_trace(go.Scatter(
+            x=group["prob_pred"], y=group["prob_true"], mode="lines+markers", name=model_name
+        ))
+
+    fig_cal.update_layout(xaxis_title="Predicted win probability", yaxis_title="Observed win frequency",
+                              xaxis_range=[0, 1], yaxis_range=[0, 1], height=450)
+    st.plotly_chart(fig_cal, width='stretch')
+    st.caption(
+        "A model's curve sitting on the diagonal means its predicted probabilities "
+        "match how often those outcomes actually happened — see the project README "
+        "for why this matters more than AUC alone for a win-probability model."
+    )
