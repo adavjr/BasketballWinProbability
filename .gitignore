@@ -4,3 +4,4 @@ venv/
 .vscode
 __*
 test.py
+*.pdf
